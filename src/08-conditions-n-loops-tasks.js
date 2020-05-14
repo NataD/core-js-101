@@ -215,8 +215,20 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let startBrace = '';
+  let endBrace = '';
+  if (isStartIncluded) {
+    startBrace = '[';
+  } else {
+    startBrace = '(';
+  }
+  if (isEndIncluded) {
+    endBrace = ']';
+  } else {
+    endBrace = ')';
+  }
+  return a < b ? `${startBrace}${a}, ${b}${endBrace}` : `${startBrace}${b}, ${a}${endBrace}`;
 }
 
 
@@ -395,8 +407,18 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const splitedPathes = pathes.map((path) => path.split('/').filter((el) => el !== '')).sort();
+  const commonDirectoryPath = splitedPathes[0].filter(
+    (el) => splitedPathes.every((path) => path.includes(el)),
+  );
+  if (commonDirectoryPath.length !== 0) {
+    return '/'.concat(commonDirectoryPath.join('/')).concat('/');
+  }
+  if (pathes.every((el) => el.startsWith('/'))) {
+    return '/';
+  }
+  return '';
 }
 
 
@@ -418,8 +440,20 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const product = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    const row = [];
+    for (let k = 0; k < m2[0].length; k += 1) {
+      let col = 0;
+      for (let j = 0; j < m2.length; j += 1) {
+        col += m1[i][j] * m2[j][k];
+      }
+      row.push(col);
+    }
+    product.push(row);
+  }
+  return product;
 }
 
 
